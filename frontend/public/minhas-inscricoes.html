@@ -37,6 +37,8 @@
             <strong>Candidato:</strong> <span id="mi-nome" data-testid="mi-nome">—</span><br>
             <strong>CPF:</strong> <span id="mi-cpf" data-testid="mi-cpf">—</span><br>
             <strong>Curso (1ª opção):</strong> <span id="mi-cargo" data-testid="mi-curso">—</span><br>
+            <span id="mi-curso2-row" style="display:none"><strong>Curso (2ª opção):</strong> <span id="mi-curso2" data-testid="mi-curso2">—</span><br></span>
+            <strong>Local de Prova:</strong> <span id="mi-local" data-testid="mi-local">—</span><br>
             <strong>Nº da inscrição:</strong> <span id="mi-proto" data-testid="mi-numero">—</span><br>
             <strong>Valor:</strong> <span id="mi-valor" data-testid="mi-valor">—</span><br>
             <strong>Prazo para pagamento da taxa:</strong> Até 07/10/2026
@@ -61,6 +63,8 @@
     document.getElementById('mi-nome').textContent=d.NOME?(''+d.NOME).toUpperCase():'—';
     document.getElementById('mi-cpf').textContent=d.CPF||'—';
     document.getElementById('mi-cargo').textContent=d.CURSO||d.__vaga_label||'—';
+    if(d.CURSO2){ document.getElementById('mi-curso2').textContent=d.CURSO2; document.getElementById('mi-curso2-row').style.display=''; }
+    document.getElementById('mi-local').textContent=d.LOCAL_PROVA||'—';
     document.getElementById('mi-proto').textContent=num;
     document.getElementById('mi-valor').textContent='R$ 95,00';
     var ov=document.getElementById('mi-overlay');
