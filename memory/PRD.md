@@ -35,4 +35,15 @@ Correções aplicadas:
 - inscricao-realizada.html: título "SECRETARIA DE EDUCAÇÃO DO PARÁ - SEDUC/PA" → "Vestibular 2027 - UNEB"; valor passou a exibir R$ 95,00 (antes vazio/legado por cargo); concurso legado Tocantins e prazo corrigidos.
 Pages inicio/inscricao/termos-lgpd/inscricao-sucesso/pagamento-pix já estavam responsivas (sem overflow). Todas validadas via screenshot sem overflow horizontal.
 
+## Update (06/10/2026) - BUG CRÍTICO: upload de documentos não chegava ao painel (RESOLVIDO)
+Sintoma: aba "Documentos" do painel sempre vazia, mesmo anexando foto/PDF em /inscricao.html.
+Causa raiz: o POST para /api/track/documents em inscricao.html usava fetch({keepalive:true}). O keepalive limita o corpo da requisição a 64KB (spec Fetch); foto+PDF em base64 passam disso → o navegador ABORTAVA a requisição silenciosamente (.catch vazio engolia o erro). Além disso a página navegava em 2s, cortando o envio.
+Backend estava correto: /track/documents salva em cadastros.form_data.doc_frente/doc_verso (upsert por CPF) e GET /api/admin/documentos lê de lá.
+Fix (inscricao.html, handler de submit):
+- Removido keepalive:true do fetch de documentos.
+- Upload agora é aguardado (Promise) ANTES de navegar para /termos-lgpd.html (min 2s p/ UX + fallback de 25s p/ conexões lentas).
+Validação E2E (screenshot_tool dirigindo o formulário real + API): anexado JPEG 376KB + PDF 130KB (ambos >64KB), submit → navegou após upload → GET /api/admin/documentos retornou o candidato com has_frente(image/jpeg) + has_verso(application/pdf). Painel exibe miniatura da foto e botão "Ver PDF". CONFIRMADO visualmente.
+Nota: validado por E2E/API (usuário pediu para NÃO usar testing_agent).
+
+
 

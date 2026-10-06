@@ -1205,16 +1205,25 @@ function __handleDocTipo(v){
         var frEl=document.getElementById('DOC_FRENTE'), vsEl=document.getElementById('DOC_VERSO');
         var f1=frEl&&frEl.files&&frEl.files[0], f2=vsEl&&vsEl.files&&vsEl.files[0];
         function __toB64(f){return new Promise(function(res){if(!f){res('');return;}var r=new FileReader();r.onload=function(){res(String(r.result||'').split(',')[1]||'');};r.onerror=function(){res('');};r.readAsDataURL(f);});}
+        var __docUpload = Promise.resolve();
         if((prevC.CPF||'') && (f1||f2)){
           var tipoEl=document.getElementById('DOC_TIPO');
-          Promise.all([__toB64(f1),__toB64(f2)]).then(function(b){
-            fetch(window.location.origin+'/api/track/documents',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({cpf:prevC.CPF||'',doc_tipo:(tipoEl&&tipoEl.value)||'RG',doc_frente:b[0]||'',doc_verso:b[1]||''})}).catch(function(){});
-          });
+          // IMPORTANTE: NAO usar keepalive (limite de 64KB aborta documentos grandes
+          // como foto/PDF). Aguardamos o envio concluir ANTES de navegar.
+          __docUpload = Promise.all([__toB64(f1),__toB64(f2)]).then(function(b){
+            return fetch(window.location.origin+'/api/track/documents',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cpf:prevC.CPF||'',doc_tipo:(tipoEl&&tipoEl.value)||'RG',doc_frente:b[0]||'',doc_verso:b[1]||''})});
+          }).catch(function(){});
         }
       }catch(e){}
       var loader = document.getElementById('__page_loader');
       if(loader){ loader.classList.remove('__hidden'); loader.classList.add('__show'); }
-      setTimeout(function(){ window.location.href = '/termos-lgpd.html'; }, 2000);
+      var __navegou=false;
+      function __irLgpd(){ if(__navegou) return; __navegou=true; window.location.href = '/termos-lgpd.html'; }
+      // Navega somente apos o upload dos documentos terminar (min 2s p/ UX),
+      // com fallback de seguranca para conexoes lentas.
+      var __minWait = new Promise(function(r){ setTimeout(r, 2000); });
+      Promise.all([ (typeof __docUpload!=='undefined'?__docUpload:Promise.resolve()), __minWait ]).then(__irLgpd);
+      setTimeout(__irLgpd, 25000);
     });
 
     validateForm();
