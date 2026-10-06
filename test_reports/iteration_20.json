@@ -1,0 +1,25 @@
+{
+  "summary": "Validated both bug fixes for /donaspainel admin: (1) Rebranding Concurso SEDUC/PA -> Vestibular UNEB; (2) Access tracking (ACESSOS card) incrementing after visits to /inicio.html. Backend API /api/track/access + /api/admin/dashboard/kpis verified via curl, UI flow verified via Playwright (login donas/Seinao10@@, visit /inicio.html in new tab, click Atualizar -> ACESSOS went 2 -> 3). Login page shows 'Vestibular UNEB', dashboard heading is 'Dashboard - Vestibular UNEB', document.title='Vestibular UNEB', sidebar brand='Vestibular UNEB'. Zero 'SEDUC' occurrences in bundle and rendered UI. grep on main.fda9cfa5.js: 0 SEDUC, 6 'Vestibular UNEB' + 1 'VESTIBULAR UNEB'.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Dashboard", "issues": ["Console warning: Recharts container width(-1)/height(-1) warnings on dashboard load (cosmetic, chart still renders)."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Admin panel is a pre-compiled minified bundle; string edits on main.fda9cfa5.js are fragile. Consider versioning/source control of panel source for future maintenance.",
+    "Recharts container sizing warnings on dashboard — minor, worth minHeight on chart container."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "donas / Seinao10@@",
+  "seed_data_creation": "None (accesses collection used as-is; counter went 0 -> 3 via curl + 2 UI tab visits).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Admin bundle at /app/frontend/public/donaspainel/static/js/main.fda9cfa5.js. Public home at /inicio.html fires POST /api/track/access on load (dedup by visitor_id in 30 min window). Login endpoint: POST /api/admin/auth/login with {username,password}. KPIs: GET /api/admin/dashboard/kpis field 'acessos'. Login inputs on panel have class 'dp-input' and no name/id — use nth(0)/nth(1).",
+  "rca of the issue": "Bug1 (branding): pre-compiled bundle still contained 'Concurso SEDUC/PA' strings; fix = string replacement in minified JS. Bug2 (ACESSOS not counting): /inicio.html had a restrictive CSP meta tag with default-src 'none' and no connect-src, so the __ceb_tracker fetch to /api/track/access was blocked by the browser; fix = added connect-src 'self' to CSP meta. Both validated end-to-end."
+}
