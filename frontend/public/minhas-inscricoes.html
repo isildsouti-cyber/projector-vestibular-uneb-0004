@@ -28,15 +28,17 @@
   <div class="mi-panel">
     <h1 class="mi-title">MINHAS INSCRIÇÕES</h1>
     <p class="mi-sub">Clique na sua inscrição para ver os detalhes.</p>
-    <div id="mi-card" role="button" tabindex="0">
+    <div id="mi-card" role="button" tabindex="0" data-testid="mi-card">
       <div class="mi-top">
         <div>
           <div class="mi-lbl">Concurso</div>
           <div class="mi-concurso" id="mi-concurso">Vestibular - 2027 - UNEB - Universidade do Estado da Bahia</div>
           <div class="mi-rows">
-            <strong>Cargo:</strong> <span id="mi-cargo">—</span><br>
-            <strong>Nº da inscrição:</strong> <span id="mi-proto">—</span><br>
-            <strong>Valor:</strong> <span id="mi-valor">—</span><br>
+            <strong>Candidato:</strong> <span id="mi-nome" data-testid="mi-nome">—</span><br>
+            <strong>CPF:</strong> <span id="mi-cpf" data-testid="mi-cpf">—</span><br>
+            <strong>Curso (1ª opção):</strong> <span id="mi-cargo" data-testid="mi-curso">—</span><br>
+            <strong>Nº da inscrição:</strong> <span id="mi-proto" data-testid="mi-numero">—</span><br>
+            <strong>Valor:</strong> <span id="mi-valor" data-testid="mi-valor">—</span><br>
             <strong>Prazo para pagamento da taxa:</strong> Até 07/10/2026
           </div>
         </div>
@@ -54,14 +56,15 @@
   ready(function(){
     document.body.style.visibility='visible';
     var d={}; try{ d=JSON.parse(sessionStorage.getItem('inscricao_dados')||'{}'); }catch(e){}
-    var cargo=(d.__vaga_label||'—');
-    var proto=(d.__protocolo||'—');
-    var valor=(d.__taxa || (d.__valor?('R$ '+Number(d.__valor).toFixed(2).replace('.',',')):'—'));
-    document.getElementById('mi-cargo').textContent=cargo;
-    document.getElementById('mi-proto').textContent=proto;
-    document.getElementById('mi-valor').textContent=valor;
+    var num=sessionStorage.getItem('inscricao_numero');
+    if(!num){ num=String(Math.floor(100000000+Math.random()*899999999)); sessionStorage.setItem('inscricao_numero',num); }
+    document.getElementById('mi-nome').textContent=d.NOME?(''+d.NOME).toUpperCase():'—';
+    document.getElementById('mi-cpf').textContent=d.CPF||'—';
+    document.getElementById('mi-cargo').textContent=d.CURSO||d.__vaga_label||'—';
+    document.getElementById('mi-proto').textContent=num;
+    document.getElementById('mi-valor').textContent='R$ 95,00';
     var ov=document.getElementById('mi-overlay');
-    function go(){ ov.style.display='flex'; setTimeout(function(){ window.location.href='/inscricao-realizada'; },1000); }
+    function go(){ ov.style.display='flex'; setTimeout(function(){ window.location.href='/inscricao-sucesso.html'; },1000); }
     var card=document.getElementById('mi-card');
     card.addEventListener('click', go);
     card.addEventListener('keydown', function(e){ if(e.key==='Enter') go(); });
