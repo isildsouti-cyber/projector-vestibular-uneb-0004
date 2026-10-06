@@ -316,6 +316,42 @@
 
 <div id="insc-overlay" style="display:none;position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:99999;align-items:center;justify-content:center"><div style="width:52px;height:52px;border:5px solid #cfd8e3;border-top-color:#1351b4;border-radius:50%;animation:inscspin .8s linear infinite"></div></div>
 <style>@keyframes inscspin{to{transform:rotate(360deg)}}</style>
+<style id="__mobile_reduzir">
+@media (max-width:768px){
+  .uneb-comunicados .uneb-intro{font-size:12.5px!important;margin:0 0 16px!important;line-height:1.45!important}
+  .uneb-comunicados .uneb-periodo{padding:12px!important}
+  .uneb-comunicados .uneb-periodo h4{font-size:13px!important}
+  .uneb-comunicados .uneb-periodo p{font-size:11.5px!important}
+  .uneb-comunicados .uneb-ico{transform:scale(.8);transform-origin:left center}
+  .uneb-comunicados .uneb-head{margin:0 0 12px!important;gap:8px!important}
+  .uneb-comunicados .uneb-head h4{font-size:15px!important}
+  .uneb-comunicados .uneb-count{font-size:10px!important;padding:5px 9px!important}
+  .uneb-comunicados .uneb-list{gap:9px!important}
+  .uneb-comunicados .uneb-card{padding:10px!important;gap:9px!important;border-radius:12px!important}
+  .uneb-comunicados .uneb-date{flex-basis:40px!important;padding:6px 4px!important;border-radius:9px!important}
+  .uneb-comunicados .uneb-date .d{font-size:15px!important}
+  .uneb-comunicados .uneb-date .m{font-size:8.5px!important;letter-spacing:.5px!important;margin-top:2px!important}
+  .uneb-comunicados .uneb-tag{font-size:9.5px!important;padding:2px 7px!important}
+  .uneb-comunicados .uneb-title{font-size:13px!important;line-height:1.25!important}
+  .uneb-comunicados .uneb-chev{transform:scale(.8)}
+  .uneb-comunicados .uneb-desc{font-size:11.5px!important;line-height:1.4!important}
+  .uneb-comunicados .uneb-sub{font-size:10.5px!important;gap:6px!important;margin-top:8px!important}
+}
+</style>
+<script id="__remove_vlibras_mobile">
+(function(){
+  function isMobile(){ try{ return window.matchMedia('(max-width:768px)').matches || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent||''); }catch(e){ return false; } }
+  function nuke(){
+    if(!isMobile()) return;
+    var w=document.getElementById('vlibras-access-wrapper'); if(w) w.remove();
+    var list=document.querySelectorAll('div[vw]'); for(var i=0;i<list.length;i++){ list[i].remove(); }
+    var sts=document.querySelectorAll('style.sf-hidden'); for(var j=0;j<sts.length;j++){ var t=sts[j].textContent||''; if(/vlibras|div\[vw\]/i.test(t)) sts[j].remove(); }
+  }
+  nuke();
+  setTimeout(nuke, 300);
+  setTimeout(nuke, 1200);
+})();
+</script>
 <script id="__ceb_tracker">
 (function(){
   try {
