@@ -1,0 +1,21 @@
+{
+  "summary": "Validated the PDF documento display fix in the /donaspainel-documentos.html panel. Backend correctly detects PDF magic bytes for base64-stored documents without data: prefix, returns application/pdf in listing and file endpoints. Frontend renders 'Ver PDF' link (with correct data-testid) for DONAS DA SILVA (CPF 21878979744) instead of broken image. Regression: image thumbnails still work for image documents (verified with DONAS 2 row and via a synthetic test cadastro).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_donas_documentos_pdf.py",
+    "/app/test_reports/pytest/donas_documentos_pdf.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "admin_routes.py file is 1870 lines - consider splitting into smaller modules (documentos, cadastros, auth, pix, tracking) for maintainability."
+  ],
+  "updated_files": ["/app/backend/tests/test_donas_documentos_pdf.py"],
+  "success_rate": {"backend": "100% (4/4)", "frontend": "100%"},
+  "test_credentials": "Admin login: donas / Seinao10@@ at /donaspainel",
+  "seed_data_creation": "Created ephemeral test cadastro CPF 00000000191 via POST /api/track/documents to validate mime detection (image PNG data-URL frente + raw base64 PDF verso). Cleaned up via DELETE /api/admin/cadastros/00000000191.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Bug fix confirmed working. Backend _sniff_mime detects PDF via '%PDF' magic bytes when documents are stored as raw base64 (without data: prefix). Frontend docCell() correctly renders <a class='doc-file-link' data-testid='file-link-{tipo}-{cpf}'> for application/pdf mime and <img class='doc-thumb'> for image/* mimes. Tests at /app/backend/tests/test_donas_documentos_pdf.py cover: listing mimes, file serving content-type/body, and image regression via synthetic cadastro.",
+  "rca of the issue": "Root cause: PDFs were saved to form_data.doc_frente/doc_verso as raw base64 strings without a 'data:application/pdf;base64,' prefix. The previous _doc_mime() implementation had no way to detect the mime type when the prefix was missing, so it defaulted to 'image/jpeg', causing the frontend docCell() to render an <img> tag with an unloadable PDF byte stream (broken image). Fix (already applied by main agent): added _sniff_mime() which inspects the first decoded bytes for magic signatures (%PDF, PNG, JPEG, GIF, WEBP, TIFF, PS) and is used by both the listing endpoint (_doc_mime) and get_documento_arquivo endpoint to set Content-Type. Verified: listing returns frente_mime='application/pdf' and verso_mime='application/pdf' for CPF 21878979744; file endpoints respond 200 with content-type application/pdf and body starting with '%PDF'; UI renders 'Ver PDF' button links with correct testids."
+}

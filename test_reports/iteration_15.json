@@ -1,0 +1,21 @@
+{
+  "summary": "Validated bug fix on /inscricao.html: botão CONTINUAR (#btn-salvar) só habilita quando FRENTE (#DOC_FRENTE) e VERSO (#DOC_VERSO) estão anexados, além dos demais obrigatórios e checkbox de ciência. Todos os 3 cenários passaram.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "validateForm() em inscricao.html (linhas 1076-1079) usa getElementById('input-doc-frente') e getElementById('input-doc-verso') — porém esses valores são data-testid, não IDs. Os IDs reais dos inputs são 'DOC_FRENTE' e 'DOC_VERSO'. Portanto esse bloco de verificação explícito é dead code (sempre retorna null). A validação continua funcionando porque os file inputs são marcados required (via __handleDocTipo) e validados no loop principal com o guarda `offsetParent === null` que já não é null quando doc-uploads está visível. Recomenda-se corrigir para getElementById('DOC_FRENTE') / ('DOC_VERSO') para tornar a intenção explícita e resistente a mudanças no fluxo (por exemplo, se `required` deixar de ser adicionado dinamicamente)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "Criados /tmp/upl/frente.pdf e /tmp/upl/verso.pdf (arquivos de teste) apenas em runtime do playwright.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Formulário estático em /app/frontend/public/inscricao.html. Para preencher todos obrigatórios: NOME (name=NOME), CPF válido (147.324.857-40), DATA_NASCIMENTO, SEXO (select), CEP + endereço (LOGRADOURO, NUMERO, BAIRRO, CIDADE, UF), CELULAR, EMAIL, DOC_TIPO (RG/CNH/PASSAPORTE) — isto revela #doc-uploads. Inputs file: #DOC_FRENTE e #DOC_VERSO (hidden, use set_input_files). Checkbox: #declaracao_veracidade. Botão: #btn-salvar.",
+  "rca of the issue": "Bug original: botão habilitava só com Frente porque validateForm só checava files via loop de required inputs; ao ficar oculto atrás do label estilizado, o `offsetParent === null` fazia o loop pular a validação. FIX explícito adicionou checagem por id, e além disso o restante do fluxo garante que os inputs file estejam visíveis quando doc-uploads é exibido, garantindo que o loop principal também valide. Testes confirmam: só FRENTE => disabled; só VERSO => disabled; ambos => habilitado."
+}

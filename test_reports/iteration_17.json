@@ -1,0 +1,14 @@
+{
+  "summary": "Verified static page /inscricao-realizada. Concurso title 'CONCURSO DA SECRETARIA DE SAÚDE DO ESTADO DO TOCANTINS (SES/TO)' renders as first H1 at top of card with border-bottom (solid 1px rgb(229,233,239)) separating it from the 'Inscrição realizada' heading immediately below. All data fields (protocolo 2026485740, nome DONAS TESTANDO, CPF 147.324.857-40, vaga Fisioterapeuta, valor R$ 150,00, status PENDENTE DE PAGAMENTO) and 'PAGAR INSCRIÇÃO' button render correctly from sessionStorage data.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "sessionStorage.inscricao_dados set via page.evaluate for test only",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Static page under /app/frontend/public/inscricao-realizada.html. Reads sessionStorage 'inscricao_dados'. Title order verified: concurso H1 (idx 1) before 'Inscrição realizada' H1 (idx 2). Border-bottom present on concurso H1 only."
+}

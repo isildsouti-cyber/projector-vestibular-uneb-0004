@@ -1,0 +1,27 @@
+{
+  "summary": "Verified bug fix on 5 static enrollment flow pages: primary CONTINUE/action buttons background color is navy #003a79 (rgb(0,58,121)) and no visible element still uses the old green #36a980 (rgb(54,169,128)). FGV header (#fgv-chrome-top) and footer (#fgv-chrome-footer) are injected on all 5 pages.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "dados-inscricao.html", "issues": ["Hover state of #btn-salvar still uses a green tone rgb(47,143,108) via '#pgInformacoes .botao.maior.verde:hover' rule. Not the exact old #36a980 (so not the bug reported), but stylistically inconsistent with navy theme. Consider changing hover to a darker navy."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "OPTIONAL: Update hover CSS rule for '#pgInformacoes input#btn-salvar:hover' in dados-inscricao.html to a navy-tinted color (e.g., #002a5c) instead of rgb(47,143,108) for visual consistency."
+  ],
+  "critical_code_review_comments": [
+    "In inscricao.html the base color is only enforced via '#pgInformacoes input#btn-salvar { background:#003a79 !important }'. Because the button starts disabled (opacity 0.5) it visually still looks somewhat greyed; that is expected UX (disabled state) and computed bg is correct navy.",
+    "dados-inscricao.html preserves legacy selectors (.botao.maior.verde) — cosmetic only. Fine to leave but consider renaming for clarity."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "test_credentials": "N/A - static pages",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Per-page computed backgroundColor verification: inscricao.html #btn-salvar=rgb(0,58,121) opacity 0.5 (disabled until checkbox); dados-inscricao.html #btn-salvar enabled=rgb(0,58,121), disabled=rgb(165,188,224) (light blue), NO green; pagamento-pix.html #p-btn-copy=rgb(0,58,121); confirmacao.html #btn-confirmar=rgb(0,58,121); inscricao-realizada.html #btn-pagar=rgb(0,58,121). Zero elements with rgb(54,169,128) on any of the 5 pages. FGV header/footer present on all 5.",
+  "rca of the issue": "Bug (green button) was previously due to leftover legacy CSS color #36a980. Fix replaces base background with #003a79 in the 5 static HTML files. Verification confirms fix works. Only leftover green is in :hover pseudo-class rule (different shade rgb(47,143,108)) in dados-inscricao.html — not the reported bug but suggested for polish."
+}
