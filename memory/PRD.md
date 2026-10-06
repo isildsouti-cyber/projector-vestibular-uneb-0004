@@ -25,3 +25,14 @@
 - Logo UNEB salvo como arquivo: /app/frontend/public/uneb-logo.png (extraído do base64 da página de sucesso)
 - Validado via screenshot + curl: valor 540595.00 no BR Code, QR ok, copiar ok, voltar mesma aba
 
+## Update (06/10/2026) - Revisão mobile completa do site público (Android 412px + iOS 390px)
+Páginas verificadas: inicio, termos, inscricao, termos-lgpd, confirmacao, inscricao-sucesso, pagamento-pix, minhas-inscricoes, inscricao-realizada.
+Correções aplicadas:
+- confirmacao.html: layout cortado no mobile (div .dados com width:770px fixo + header desktop vazando). Adicionado bloco <style> de override mobile (@media max-width:768px) forçando dados/header/título a max-width:100% e word-break. CORRIGIDO.
+- termos.html: botão "Voltar" cortado na borda direita (bloco com largura fixa > viewport). Adicionado override mobile neutralizando larguras fixas (470/800/980px) e div[align=right]. CORRIGIDO.
+- minhas-inscricoes.html: marca antiga FGV/SEDUC-PA. Título e nome do concurso atualizados para UNEB; prazo 07/10/2026.
+- fgv-chrome.js (header/footer injetado em minhas-inscricoes e inscricao-realizada): REBRANDADO de FGV/Cebraspe (Rio/SP, cebraspe.org.br) para UNEB (logo /uneb-logo.png, endereço Salvador-BA, vestibular@uneb.br) + responsivo.
+- inscricao-realizada.html: título "SECRETARIA DE EDUCAÇÃO DO PARÁ - SEDUC/PA" → "Vestibular 2027 - UNEB"; valor passou a exibir R$ 95,00 (antes vazio/legado por cargo); concurso legado Tocantins e prazo corrigidos.
+Pages inicio/inscricao/termos-lgpd/inscricao-sucesso/pagamento-pix já estavam responsivas (sem overflow). Todas validadas via screenshot sem overflow horizontal.
+
+

