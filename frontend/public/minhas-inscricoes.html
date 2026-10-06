@@ -20,6 +20,21 @@
   .mi-back{margin-top:16px;font-size:12px;color:#003a79;font-weight:600}
   #mi-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.85);z-index:99999;align-items:center;justify-content:center}
   @keyframes miSpin{to{transform:rotate(360deg)}}
+  @media (max-width:768px){
+    #fgv-chrome-top .fgv-logo-bar{justify-content:flex-start!important;padding:12px 16px!important}
+    #fgv-chrome-top .fgv-logo-bar img{height:62px!important;max-width:none!important}
+    .mi-wrap{padding:16px 10px 32px}
+    .mi-panel{padding:20px 14px;border-radius:8px}
+    .mi-title{font-size:18px;margin-bottom:12px;padding-bottom:12px}
+    .mi-sub{font-size:13px;margin-bottom:14px}
+    #mi-card{padding:14px 14px;border-radius:10px;max-width:none}
+    .mi-top{flex-direction:column-reverse;gap:10px}
+    .mi-concurso{font-size:15px;line-height:1.35}
+    .mi-rows{font-size:13.5px;line-height:1.5}
+    .mi-rows strong{display:block;margin-top:8px;font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:.3px}
+    .mi-rows br{display:none}
+    .mi-status{align-self:flex-start;font-size:11px}
+  }
 </style>
 </head>
 <body style="visibility:hidden">
