@@ -93,6 +93,9 @@
 
   footer.pg-foot{text-align:center;color:var(--muted);font-size:12.5px;padding:0 22px 30px}
 
+  .vaga-op{padding:10px 12px;border:1px solid #e3e8f0;border-left:3px solid #0f4cad;border-radius:8px;background:#f8fafd;margin-top:8px;font-size:14px;line-height:1.45}
+  .vaga-op:first-child{margin-top:4px}
+  .vaga-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#0f4cad;margin-bottom:3px}
   @media (max-width:760px){
     .topbar .wrap{padding:13px 16px;gap:12px}
     .topbar img{height:46px}
@@ -107,7 +110,7 @@
     .steps{grid-template-columns:1fr}
     .card-head h1{font-size:19px}
     .topbar .titles .t2{display:none}
-    #p-vaga{font-size:13px;line-height:1.45}
+    #p-vaga .vaga-op{font-size:13px}
   }
 </style>
 </head>
@@ -238,7 +241,13 @@
     g('p-nome').textContent = nome ? nome.toUpperCase() : '—';
     g('p-cpf').textContent = cpf ? fmtCPF(cpf) : '—';
     g('p-inscricao').textContent = numero || '—';
-    g('p-vaga').textContent = vagaFull;
+    var pv=g('p-vaga'); pv.textContent='';
+    if(!vaga){ pv.textContent='—'; }
+    else { [['1ª opção',vaga],['2ª opção',vaga2]].forEach(function(o,i){ if(!o[1]) return;
+      var b=document.createElement('div'); b.className='vaga-op'; b.setAttribute('data-testid','p-vaga-'+(i+1));
+      var t=document.createElement('span'); t.className='vaga-tag'; t.textContent=o[0];
+      var n=document.createElement('div'); n.textContent=o[1];
+      b.appendChild(t); b.appendChild(n); pv.appendChild(b); }); }
     g('p-valor').textContent = fmtBRL(VALOR);
   }
 
