@@ -25,6 +25,17 @@
  
  
  <header id=TopoMobile class=sf-hidden>
+ <img src="/uneb-logo.png" alt="UNEB" style="height:40px;width:auto">
+ <button type="button" id="__hamburger" aria-label="Menu" data-testid="mobile-menu-btn" style="background:none;border:none;cursor:pointer;padding:8px;display:none;flex-direction:column;gap:5px">
+ <span style="display:block;width:26px;height:3px;background:#0f4cad;border-radius:2px"></span>
+ <span style="display:block;width:26px;height:3px;background:#0f4cad;border-radius:2px"></span>
+ <span style="display:block;width:26px;height:3px;background:#0f4cad;border-radius:2px"></span>
+ </button>
+ <div id="__mobmenu" data-testid="mobile-menu" style="display:none;position:absolute;top:100%;right:10px;background:#fff;border:1px solid #e6ebf2;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:190px;z-index:99999;overflow:hidden">
+ <a href="/minhas-inscricoes.html" data-testid="mobile-minhas-inscricoes" style="display:block;padding:14px 18px;color:#0f4cad;font-weight:600;font-family:sans-serif;text-decoration:none;font-size:15px">Minhas Inscrições</a>
+ </div>
+ <style>@media(max-width:768px){#TopoMobile{position:relative}#__hamburger{display:flex!important}}</style>
+ <script>(function(){var b=document.getElementById('__hamburger'),m=document.getElementById('__mobmenu');if(b){b.addEventListener('click',function(e){e.stopPropagation();m.style.display=(m.style.display==='block'?'none':'block');});document.addEventListener('click',function(){m.style.display='none';});}})();</script>
  
  
  
@@ -45,12 +56,12 @@
  <div id=TopLogin class=logado>
  <div class="item botoes" style="margin:20px 0px 0px 70px;float:right">
  <span>
- <span class=btn-areacandidato>
+ <a href=/minhas-inscricoes.html class=btn-areacandidato data-testid=minhas-inscricoes-link style="text-decoration:none">
  <svg style=width:30px;padding:5px xmlns=http://www.w3.org/2000/svg fill=none viewBox="0 0 24 24" stroke-width=1.2 stroke=currentColor class="w-6 h-6">
  <path stroke-linecap=round stroke-linejoin=round d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"></path>
  </svg>
- Área do Candidato
- </span>
+ Minhas Inscrições
+ </a>
  </span>
  </div> 
  </div>
