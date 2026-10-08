@@ -28,7 +28,7 @@
    + '<div class="cols">'
    + '<div><h4>Endere\u00e7o</h4><p>Rua Silveira Martins, 2555, Cabula<br>Salvador - BA, CEP: 41150-000</p></div>'
    + '<div><h4>Atendimento ao candidato</h4><p>(71) 3117-2200</p><p>vestibular@uneb.br</p></div>'
-   + '<div><h4>Processo Seletivo</h4><p>Vestibular 2027</p><p>Inscri\u00e7\u00f5es de 15/09 a 07/10/2026</p></div>'
+   + '<div><h4>Processo Seletivo</h4><p>Vestibular 2027</p><p>Inscri\u00e7\u00f5es de 15/09 a 08/10/2026</p></div>'
    + '</div>'
    + '<div class="copy">\u00a9 UNEB \u2014 Universidade do Estado da Bahia. Todos os direitos reservados.</div>'
    + '</div>';
